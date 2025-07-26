@@ -1,0 +1,14 @@
+﻿{
+    "name": "com.erogemy.blockbreakertemplate",
+    "displayName": "Block Breaker Template",
+    "author": { "name": "Erogemy", "url": "https://erogemy.com/" },
+    "version": "0.0.0",
+    "unity": "2018.4",
+    "description": "Block breaker game template.",
+    "keywords": [],
+    "license": "MIT",
+    "dependencies": {},
+    "gitDependencies": {
+        "com.cysharp.unitaks": "git+ssh://git@github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask/#2.5.10"
+    }
+}
