@@ -1,5 +1,40 @@
 .custom-label {
-    font-size: 20px;
+    font-size: 24px;
     -unity-font-style: bold;
-    color: rgb(68, 138, 255);
+}
+
+.button {
+    flex-grow: 1;
+    height: 40px;
+    font-size: 14px;
+    -unity-font-style: bold;
+    background-color: rgb(70, 140, 220);
+    color: white;
+    border-radius: 6px;
+    margin-right: 5px;
+    border-width: 0;
+}
+
+.button:hover {
+    background-color: rgb(91, 162, 243);
+}
+
+.button:active {
+    background-color: rgb(70, 140, 220);
+}
+
+.border {
+    max-height: 2px;
+    min-height: 2px;
+    background-color: rgb(178, 178, 178);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.preview-container {
+    height: 320px;
+    min-height: 320px;
+    max-height: 320px;
+    background-color: rgba(255, 255, 255, 1);
+    align-items: center;
 }
