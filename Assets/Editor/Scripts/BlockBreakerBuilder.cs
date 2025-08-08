@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Erogemy.BlockBreaker.View;
 using UnityEditor;
 using UnityEngine;
@@ -22,10 +23,10 @@ namespace Erogemy.BlockBreaker.Editor
                 return;
             }
             SetupBlockImage(phaseCount, blockSize);
-            SetupScene(phaseCount);
+            SetupScene(phaseCount, blockSize);
         }
 
-        static void SetupScene(int phaseCount)
+        static void SetupScene(int phaseCount, int blockSize)
         {
             var gameCanvas = GameObject.Find("GameCanvas");
             var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.PhaseTemplatePath);
@@ -51,7 +52,7 @@ namespace Erogemy.BlockBreaker.Editor
                 component.SetBaseImage(Sprite.Create(baseImage, new Rect(0, 0, baseImage.width, baseImage.height), Vector2.zero));
 
                 // Phase_XのBlocksにblockプレファブを並べていく
-                SetupBlockPrefabs();
+                SetupBlockPrefabs(i, component, blockSize);
                 // GameCanvas内のヒエラルキー順を先頭に(Phase_1が最前面に来てほしい)
                 phaseObject.transform.SetAsFirstSibling();
 
@@ -66,13 +67,34 @@ namespace Erogemy.BlockBreaker.Editor
             playArea.GetComponent<RectTransform>().sizeDelta = new Vector2(1080f * aspectRatio, 1080f);
         }
 
-        static void SetupBlockPrefabs()
+        static void SetupBlockPrefabs(int phase, PhaseView parentPhase, int blockSize)
         {
             // Blockイメージを取得
+            var baseImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
+            var baseImages = AssetDatabase.LoadAllAssetsAtPath(baseImagePath).OfType<Sprite>();
 
             // Blockプレファブを取得
-            // BlockプレファブのサイズをblockSizeに設定
-            // BlockプレファブのBlockコンポーネントにBlockImageを設定
+            var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.BlockTemplatePath);
+            var container = parentPhase.BlockContainer;
+
+            var blockCount = 0;
+            foreach (var baseImage in baseImages)
+            {
+                var block = PrefabUtility.InstantiatePrefab(blockPrefab, container.transform) as GameObject;
+                blockPrefab.name = $"Block_{blockCount + 1}";
+                var blockComponent = block.GetComponent<Block>();
+
+                // BlockプレファブのBlockコンポーネントにBlockImageを設定
+                blockComponent.SetImage(baseImage);
+
+                // baseImageはBlock_Y_Xという名前なのでXYを取り出してVector2に詰める
+                var nameParts = baseImage.name.Split('_');
+                Debug.Log($"Block name parts: {string.Join(", ", nameParts)}");
+                var blockSizeVector = new Vector2(int.Parse(nameParts[2]), int.Parse(nameParts[1]));
+                blockComponent.SetPositionAndSize(blockSizeVector * blockSize, blockSize * Vector2.one);
+
+                blockCount++;
+            }
         }
 
         static bool CreateScene()

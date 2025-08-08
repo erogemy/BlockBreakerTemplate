@@ -1,4 +1,5 @@
 using Erogemy.BlockBreaker.Editor;
+using Erogemy.BlockBreaker.Model;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,6 +9,7 @@ public class BlockBreakerBuilderWindow : EditorWindow
     [SerializeField] VisualTreeAsset m_VisualTreeAsset;
 
     int currentPhase = 1;
+    BockBreakerSettings settings = new();
 
     [MenuItem("Tools/Erogemy/BlockBreaker/BlockBreakerBuilderWindow")]
     public static void ShowExample()
@@ -31,8 +33,19 @@ public class BlockBreakerBuilderWindow : EditorWindow
         var createSceneBtn = root.Q<Button>("create-scene-button");
         if (createSceneBtn != null)
         {
-            // TODO
-            createSceneBtn.clicked += () => BlockBreakerBuilder.Build(16);
+            createSceneBtn.clicked += () =>
+            {
+                var blockSizePx = root.Q<IntegerField>("block-size-field").value;
+                if (blockSizePx < 1)
+                {
+                    SetShowMessage(true);
+                    SetSystemMessage("ブロックのサイズは1px以上を指定してください");
+                    return;
+                }
+
+                SetShowMessage(false);
+                BlockBreakerBuilder.Build(blockSizePx);
+            };
         }
 
         var createPrefabsBtn = root.Q<Button>("create-prefabs-button");
@@ -67,6 +80,26 @@ public class BlockBreakerBuilderWindow : EditorWindow
                 UpdatePreview();
             };
         }
+
+        var ballCountField = root.Q<IntegerField>("ball-count-field");
+        ballCountField.value = settings.ballCount;
+        ballCountField?.RegisterValueChangedCallback(evt => { });
+
+        var ballSpeedField = root.Q<IntegerField>("ball-speed-field");
+        ballSpeedField.value = settings.ballMoveSpeed;
+        ballSpeedField?.RegisterValueChangedCallback(evt => { });
+
+        var paddleSpeedField = root.Q<IntegerField>("paddle-speed-field");
+        paddleSpeedField.value = settings.paddleMoveSpeed;
+        paddleSpeedField?.RegisterValueChangedCallback(evt => { });
+
+        var skipPhaseThresholdField = root.Q<IntegerField>("skip-threshold-field");
+        skipPhaseThresholdField.value = settings.skipPhaseThreshold;
+        skipPhaseThresholdField?.RegisterValueChangedCallback(evt => { });
+
+        var isResetBallField = root.Q<Toggle>("reset-ball-toggle");
+        isResetBallField.value = settings.recoverBallOnPhaseClear;
+        isResetBallField?.RegisterValueChangedCallback(evt => { });
     }
 
     void SetShowMessage(bool isVisible)

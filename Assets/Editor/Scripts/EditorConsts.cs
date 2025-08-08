@@ -11,5 +11,6 @@
         public const string BlockBreakerTemplatePath = "Templates/BlockBreakerTemplate.unity";
         public const string BlockBreakerScenePath = "Assets/Scenes/BlockBreaker/BlockBreaker.unity";
         public const string PhaseTemplatePath = "Prefabs/Phase_Template.prefab";
+        public const string BlockTemplatePath = "Prefabs/Block_Template.prefab";
     }
 }

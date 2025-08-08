@@ -71,13 +71,13 @@ namespace Erogemy.BlockBreaker.Editor
 
             var metaDataList = new List<SpriteRect>();
             var yIndex = 0;
-            for (var y = 0; y > texture.height; y += gridSize.y)
+            for (var y = 0; y < texture.height; y += gridSize.y)
             {
                 var xIndex = 0;
                 for (var x = 0; x < texture.width; x += gridSize.x)
                 {
                     //はみ出る場合は作成しない
-                    if (x + gridSize.x > texture.width || y - gridSize.y < 0)
+                    if (x + gridSize.x > texture.width || y + gridSize.y > texture.height)
                     {
                         continue;
                     }
@@ -87,7 +87,7 @@ namespace Erogemy.BlockBreaker.Editor
                         pivot = new Vector2(0.5f, 0.5f),
                         alignment = SpriteAlignment.Custom,
                         name = $"{texture.name}_{yIndex}_{xIndex}",
-                        rect = new Rect(x, y - gridSize.y, gridSize.x, gridSize.y)
+                        rect = new Rect(x, y, gridSize.x, gridSize.y)
                     };
 
                     // 分割しようとしたpixelが不透明要素を含めば追加
