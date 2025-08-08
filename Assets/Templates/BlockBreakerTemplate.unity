@@ -936,6 +936,8 @@ GameObject:
   m_Component:
   - component: {fileID: 616153772}
   - component: {fileID: 616153771}
+  - component: {fileID: 616153774}
+  - component: {fileID: 616153773}
   m_Layer: 0
   m_Name: Presenter
   m_TagString: Untagged
@@ -955,11 +957,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489cd08f576c4acebb6ff9db526ffa82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bockBreakerSampleSettings: {fileID: 11400000, guid: 9e59e65671c509a428335dde5fcc31ac, type: 2}
+  bockBreakerSettings:
+    ballCount: 3
+    ballMoveSpeed: 5
+    paddleMoveSpeed: 10
+    skipPhaseThreshold: 3
+    recoverBallOnPhaseClear: 1
   mainUIView: {fileID: 1795839006}
   gameCanvas: {fileID: 1948779475}
   ball: {fileID: 513016565}
   paddle: {fileID: 1304103931}
+  playerInput: {fileID: 616153774}
 --- !u!4 &616153772
 Transform:
   m_ObjectHideFlags: 0
@@ -975,6 +983,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 98890428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &616153773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616153770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 40d864dcd493d2b4cae721e2674b0555, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Paddle
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &616153774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616153770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22063563aeae449095467ed0dad21a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 616153773}
 --- !u!1 &638379498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,9 +1693,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1948779478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -450}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 960, y: -450}
   m_SizeDelta: {x: 200, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1304103929
@@ -1697,6 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83dd650757e4f198bb4a8321c08bce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 1304103928}
 --- !u!70 &1304103932
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

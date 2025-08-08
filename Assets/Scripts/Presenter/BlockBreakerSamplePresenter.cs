@@ -12,6 +12,7 @@ namespace Erogemy.BlockBreaker.Presenter
         [SerializeField] GameObject gameCanvas;
         [SerializeField] Ball ball;
         [SerializeField] Paddle paddle;
+        [SerializeField] PlayerInputWrapper playerInput;
 
         int currentPhase = 0;
         Sequence currentSequence = Sequence.Title;
@@ -37,6 +38,7 @@ namespace Erogemy.BlockBreaker.Presenter
             {
                 // プレイヤーの入力を受け付ける
                 // パドルを動かす
+                paddle.SetPosition(playerInput.TouchScreenPosition);
             }
 
             if (currentSequence == Sequence.WaitStart)
