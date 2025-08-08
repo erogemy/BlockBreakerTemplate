@@ -32,7 +32,7 @@ public class BlockBreakerBuilderWindow : EditorWindow
         if (createSceneBtn != null)
         {
             // TODO
-            createSceneBtn.clicked += () => Debug.Log("Create Scene button clicked");
+            createSceneBtn.clicked += () => BlockBreakerBuilder.Build(16);
         }
 
         var createPrefabsBtn = root.Q<Button>("create-prefabs-button");
