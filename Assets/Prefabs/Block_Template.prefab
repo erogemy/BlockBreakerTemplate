@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2137752505265006185}
-  collider: {fileID: 157044516735432677}
+  boxCollider: {fileID: 157044516735432677}
 --- !u!61 &157044516735432677
 BoxCollider2D:
   m_ObjectHideFlags: 0

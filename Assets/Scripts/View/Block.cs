@@ -6,7 +6,7 @@ namespace Erogemy.BlockBreaker.View
     public class Block : MonoBehaviour
     {
         [SerializeField] Image image;
-        [SerializeField] BoxCollider2D collider;
+        [SerializeField] BoxCollider2D boxCollider;
 
         public void SetImage(Sprite sprite)
         {
@@ -19,9 +19,9 @@ namespace Erogemy.BlockBreaker.View
             rectTransform.sizeDelta = size;
             rectTransform.anchoredPosition = pos;
 
-            collider.size = size;
+            boxCollider.size = size;
             // pivotが左下であることを前提にoffset調整
-            collider.offset = size / 2;
+            boxCollider.offset = size / 2;
         }
 
         public void SetActive(bool isActive)
