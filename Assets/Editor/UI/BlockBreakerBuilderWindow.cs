@@ -35,8 +35,10 @@ public class BlockBreakerBuilderWindow : EditorWindow
         {
             createSceneBtn.clicked += () =>
             {
-                var blockSizePx = root.Q<IntegerField>("block-size-field").value;
-                if (blockSizePx < 1)
+                var blockSizeWPx = root.Q<IntegerField>("block-width-size-field").value;
+                var blockSizeHPx = root.Q<IntegerField>("block-height-size-field").value;
+
+                if (blockSizeWPx < 1 || blockSizeHPx < 1)
                 {
                     SetShowMessage(true);
                     SetSystemMessage("ブロックのサイズは1px以上を指定してください");
@@ -44,7 +46,7 @@ public class BlockBreakerBuilderWindow : EditorWindow
                 }
 
                 SetShowMessage(false);
-                BlockBreakerBuilder.Build(blockSizePx);
+                BlockBreakerBuilder.Build(new Vector2Int(blockSizeWPx, blockSizeHPx));
             };
         }
 

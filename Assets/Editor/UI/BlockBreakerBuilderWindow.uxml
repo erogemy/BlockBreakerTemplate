@@ -9,7 +9,13 @@
                 <ui:VisualElement name="Border" class="border" />
                 <ui:VisualElement name="Settings">
                     <ui:Label text="ゲーム設定" style="-unity-font-style: bold;" />
-                    <ui:IntegerField label="ブロックのサイズ(px)" value="32" name="block-size-field" />
+                    <ui:VisualElement style="margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
+                        <ui:Label text="ブロックのサイズ(px)" />
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                            <ui:IntegerField label="ヨコ" value="32" name="block-width-size-field" style="flex-grow: 1; flex-basis: auto;" />
+                            <ui:IntegerField label="タテ" value="32" name="block-height-size-field" style="flex-grow: 1; flex-basis: auto;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                     <ui:IntegerField label="ライフ" value="3" name="ball-count-field" />
                     <ui:IntegerField label="ボールの速度" value="5" name="ball-speed-field" />
                     <ui:IntegerField label="バーの速度" value="5" name="paddle-speed-field" />

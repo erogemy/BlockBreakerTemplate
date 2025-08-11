@@ -9,7 +9,7 @@ namespace Erogemy.BlockBreaker.Editor
 {
     public static class BlockBreakerBuilder
     {
-        public static void Build(int blockSize)
+        public static void Build(Vector2Int blockSize)
         {
             if (!CreateScene())
             {
@@ -26,7 +26,7 @@ namespace Erogemy.BlockBreaker.Editor
             SetupScene(phaseCount, blockSize);
         }
 
-        static void SetupScene(int phaseCount, int blockSize)
+        static void SetupScene(int phaseCount, Vector2Int blockSize)
         {
             var gameCanvas = GameObject.Find("GameCanvas");
             var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.PhaseTemplatePath);
@@ -67,7 +67,7 @@ namespace Erogemy.BlockBreaker.Editor
             playArea.GetComponent<RectTransform>().sizeDelta = new Vector2(1080f * aspectRatio, 1080f);
         }
 
-        static void SetupBlockPrefabs(int phase, PhaseView parentPhase, int blockSize)
+        static void SetupBlockPrefabs(int phase, PhaseView parentPhase, Vector2Int blockSize)
         {
             // Blockイメージを取得
             var baseImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
@@ -89,9 +89,8 @@ namespace Erogemy.BlockBreaker.Editor
 
                 // baseImageはBlock_Y_Xという名前なのでXYを取り出してVector2に詰める
                 var nameParts = baseImage.name.Split('_');
-                Debug.Log($"Block name parts: {string.Join(", ", nameParts)}");
                 var blockSizeVector = new Vector2(int.Parse(nameParts[2]), int.Parse(nameParts[1]));
-                blockComponent.SetPositionAndSize(blockSizeVector * blockSize, blockSize * Vector2.one);
+                blockComponent.SetPositionAndSize(blockSizeVector * blockSize, blockSize);
 
                 blockCount++;
             }
@@ -125,14 +124,14 @@ namespace Erogemy.BlockBreaker.Editor
             return true;
         }
 
-        static void SetupBlockImage(int phaseCount, int blockSize)
+        static void SetupBlockImage(int phaseCount, Vector2Int blockSize)
         {
             for (var i = 0; i < phaseCount; i++)
             {
                 // フォルダ命名は1オリジン
                 var path = $"{EditorConsts.ImagesPath}Phase_{i + 1}/{EditorConsts.BlockImageName}";
                 var image = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                SpriteSliceWindow.ToSliceSprite(image, Vector2Int.one * blockSize);
+                SpriteSliceWindow.ToSliceSprite(image, blockSize);
             }
         }
 
