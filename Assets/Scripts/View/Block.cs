@@ -23,5 +23,10 @@ namespace Erogemy.BlockBreaker.View
             // pivotが左下であることを前提にoffset調整
             collider.offset = size / 2;
         }
+
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
     }
 }

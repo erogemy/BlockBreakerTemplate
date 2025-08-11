@@ -863,6 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballRb: {fileID: 513016567}
+  rectTransform: {fileID: 513016562}
 --- !u!58 &513016566
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1824,6 +1825,7 @@ GameObject:
   - component: {fileID: 1630404660}
   - component: {fileID: 1630404662}
   - component: {fileID: 1630404661}
+  - component: {fileID: 1630404663}
   m_Layer: 5
   m_Name: FallArea
   m_TagString: Untagged
@@ -1884,7 +1886,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 200}
+  m_Offset: {x: 0, y: -200}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1904,6 +1906,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630404659}
   m_CullTransparentMesh: 1
+--- !u!114 &1630404663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630404659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ebfeb131d49d5b3307ea3f4e4b81b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1652679649
 GameObject:
   m_ObjectHideFlags: 0

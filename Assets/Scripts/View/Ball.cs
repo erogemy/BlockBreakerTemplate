@@ -6,26 +6,35 @@ namespace Erogemy.BlockBreaker.View
     public class Ball : MonoBehaviour
     {
         [SerializeField] Rigidbody2D ballRb;
+        [SerializeField] RectTransform rectTransform;
+        Vector2 initPos;
 
-        public UnityEvent OnBallFell { get; } = new UnityEvent();
-        public UnityEvent OnRemoveBlock { get; } = new UnityEvent();
-
-        // パドルに当たったら接触点に応じた角度で跳ね返る
-
-        // ブロックに当たったら対象を消しつつ接触面に応じて跳ね返る
+        public UnityEvent OnBallFell { get; } = new();
+        public UnityEvent OnRemoveBlock { get; } = new();
 
         void Start()
         {
+            initPos = rectTransform.anchoredPosition;
+        }
+
+        public void ResetPosition()
+        {
+            rectTransform.anchoredPosition = initPos;
+            ballRb.linearVelocity = Vector2.zero;
+        }
+
+        public void Shoot(float speed)
+        {
             // 適当な角度に射出
-            ballRb.linearVelocity = new Vector2(5f, 5f)*30;
+            ballRb.linearVelocity = new Vector2(5f, 5f) * speed;
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.TryGetComponent<Block>(out _))
+            if (collision.gameObject.TryGetComponent<Block>(out var block))
             {
                 OnRemoveBlock.Invoke();
-                Destroy(collision.gameObject);
+                block.SetActive(false);
             }
         }
 
@@ -46,6 +55,10 @@ namespace Erogemy.BlockBreaker.View
                 var reflectionVector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
                 // ボールの速度を更新
                 ballRb.linearVelocity = reflectionVector * ballRb.linearVelocity.magnitude;
+            }
+            else if (collider.TryGetComponent<FallArea>(out _))
+            {
+                OnBallFell.Invoke();
             }
         }
     }

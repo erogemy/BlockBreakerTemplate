@@ -20,5 +20,20 @@ namespace Erogemy.BlockBreaker.View
             var scale = Mathf.Min(scaleX, scaleY);
             transform.localScale = new Vector3(scale, scale, 1f);
         }
+
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
+
+        public void ShowCompleteView()
+        {
+            blockContainer.gameObject.SetActive(false);
+        }
+
+        public void ActivateAllBlocks()
+        {
+            blockContainer.SetActiveAll(true);
+        }
     }
 }

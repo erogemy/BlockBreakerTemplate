@@ -7,11 +7,19 @@ namespace Erogemy.BlockBreaker.View
     {
         [SerializeField] Block[] blocks = Array.Empty<Block>();
 
-        public Block[] Blocks => blocks;
+        public int Count => blocks.Length;
 
         void Awake()
         {
             blocks = GetComponentsInChildren<Block>();
+        }
+
+        public void SetActiveAll(bool isActive)
+        {
+            foreach (var block in blocks)
+            {
+                block.SetActive(isActive);
+            }
         }
     }
 }
