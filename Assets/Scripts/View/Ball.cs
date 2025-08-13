@@ -7,7 +7,9 @@ namespace Erogemy.BlockBreaker.View
     {
         [SerializeField] Rigidbody2D ballRb;
         [SerializeField] RectTransform rectTransform;
+
         Vector2 initPos;
+        float reflectionPower;
 
         public UnityEvent OnBallFell { get; } = new();
         public UnityEvent OnRemoveBlock { get; } = new();
@@ -15,6 +17,11 @@ namespace Erogemy.BlockBreaker.View
         void Start()
         {
             initPos = rectTransform.anchoredPosition;
+        }
+
+        public void Init(float reflectionPower)
+        {
+            this.reflectionPower = reflectionPower;
         }
 
         public void ResetPosition()
@@ -40,26 +47,54 @@ namespace Erogemy.BlockBreaker.View
 
         void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.TryGetComponent<Paddle>(out _))
+            if (collider.TryGetComponent<Paddle>(out var paddle))
             {
                 // パドルの中央に近いほど純粋な反射にする
                 // パドルの端に近いほど角度をつけて跳ね返す
-                var paddlePos = collider.transform.position;
-                var paddleSize = collider.GetComponent<RectTransform>().sizeDelta;
-                var contactPoint = transform.position - paddlePos;
-                // パドルの中央からの距離を計算
-                var distanceFromCenter = Mathf.Abs(contactPoint.x - paddleSize.x / 2);
-                // 跳ね返る角度を計算
-                var angle = Mathf.Clamp(distanceFromCenter / (paddleSize.x / 2), 0.1f, 1f) * Mathf.PI / 4; // 45
-                // 反射ベクトルを計算
-                var reflectionVector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                // ボールの速度を更新
-                ballRb.linearVelocity = reflectionVector * ballRb.linearVelocity.magnitude;
+                var normalPos = paddle.GetNormalPosition(rectTransform.anchoredPosition);
+                Debug.Log(normalPos);
+
+                var velocity = new Vector2(ballRb.linearVelocity.x, -ballRb.linearVelocity.y);
+                if (Mathf.Abs(normalPos) < 0.1f)
+                {
+                    // パドルの中央に近い場合は、純粋な反射
+                    ballRb.linearVelocity = velocity;
+                    return;
+                }
+
+                // normalPosを-20度~+20度の範囲に変換する
+                var velX = velocity.x + normalPos * reflectionPower * velocity.magnitude;
+                var newDirection = new Vector2(velX, velocity.y).normalized;
+
+                // -80度~80度を超えないように調整
+                const float maxReflectionAngle = 80f; // 最大反射角度
+                newDirection = ApplyAngleLimit(newDirection, maxReflectionAngle);
+
+                ballRb.linearVelocity = newDirection * velocity.magnitude;
             }
             else if (collider.TryGetComponent<FallArea>(out _))
             {
                 OnBallFell.Invoke();
             }
+        }
+
+        Vector2 ApplyAngleLimit(Vector2 direction, float maxLimitAngle)
+        {
+            var angle = Vector2.Angle(Vector2.up, direction);
+
+            if (angle <= maxLimitAngle)
+            {
+                return direction.normalized;
+            }
+            // 角度を制限値に修正
+            var sign = Mathf.Sign(direction.x);
+            var limitedAngleRad = maxLimitAngle * Mathf.Deg2Rad;
+
+            // 制限角度でのベクトルを計算
+            var x = Mathf.Sin(limitedAngleRad) * sign;
+            var y = Mathf.Cos(limitedAngleRad);
+
+            return new Vector2(x, y).normalized;
         }
     }
 }

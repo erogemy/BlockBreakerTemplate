@@ -9,7 +9,7 @@ namespace Erogemy.BlockBreaker.Presenter
     {
         [SerializeField] BockBreakerSettings bockBreakerSettings;
         [SerializeField] MainUIView mainUIView;
-        [SerializeField] GameObject gameCanvas;
+        [SerializeField] GameCanvasView gameCanvas;
         [SerializeField] Ball ball;
         [SerializeField] Paddle paddle;
         [SerializeField] PlayerInputWrapper playerInput;
@@ -18,8 +18,6 @@ namespace Erogemy.BlockBreaker.Presenter
         Sequence currentSequence = Sequence.Title;
         int remainingBallCount;
         int remainingBlockCount;
-
-        PhaseView[] phaseViews;
 
         void Awake()
         {
@@ -30,12 +28,12 @@ namespace Erogemy.BlockBreaker.Presenter
             // ボールがブロックを消去した時のリスナ
             ball.OnRemoveBlock.AddListener(OnRemoveBlock);
 
-            phaseViews = gameCanvas.GetComponentsInChildren<PhaseView>();
             mainUIView.UpdateContent(currentSequence);
         }
 
         void Start()
         {
+            ball.Init(bockBreakerSettings.ballReflectionPower);
             SetVisibleBallAndPaddle(false);
         }
 
@@ -45,7 +43,10 @@ namespace Erogemy.BlockBreaker.Presenter
             {
                 // プレイヤーの入力を受け付ける
                 // パドルを動かす
-                paddle.SetPosition(playerInput.TouchScreenPosition);
+                var paddlePosition = playerInput.TouchScreenPosition;
+                // TouchScreenPositionは左端を0とするので、画面中央が0となるよう補正
+                paddlePosition.x -= Screen.width / 2f;
+                paddle.SetPosition(paddlePosition);
             }
 
             if (currentSequence == Sequence.WaitStart)
@@ -71,7 +72,7 @@ namespace Erogemy.BlockBreaker.Presenter
                     // 無視
                     break;
                 case Sequence.PhaseClear:
-                    if (phaseViews.Length > currentPhase + 1)
+                    if (gameCanvas.PhaseCount > currentPhase + 1)
                     {
                         // 次のフェーズへ
                         StartPhase(currentPhase + 1);
@@ -84,7 +85,7 @@ namespace Erogemy.BlockBreaker.Presenter
                     break;
                 case Sequence.GameOver:
                     ResetBallAndPaddle();
-                    ActivatePhaseView(0);
+                    gameCanvas.ActivatePhaseView(0);
                     currentSequence = Sequence.Title;
                     break;
                 case Sequence.Complete:
@@ -100,8 +101,8 @@ namespace Erogemy.BlockBreaker.Presenter
         {
             currentPhase = phaseIndex;
             remainingBallCount = bockBreakerSettings.ballCount;
-            ActivatePhaseView(phaseIndex);
-            remainingBlockCount = phaseViews[phaseIndex].BlockContainer.Count;
+            gameCanvas.ActivatePhaseView(phaseIndex);
+            remainingBlockCount = gameCanvas.GetPhaseBlockCount(phaseIndex);
 
             // ボールとパドルを表示
             SetVisibleBallAndPaddle(true);
@@ -114,16 +115,6 @@ namespace Erogemy.BlockBreaker.Presenter
 
             mainUIView.SetBallCount(remainingBallCount);
             currentSequence = Sequence.WaitStart;
-        }
-
-        void ActivatePhaseView(int phaseIndex)
-        {
-            for (var i = 0; i < phaseViews.Length; i++)
-            {
-                phaseViews[i].SetActive(i == phaseIndex);
-            }
-
-            phaseViews[phaseIndex].ActivateAllBlocks();
         }
 
         // ボール落下
@@ -157,7 +148,7 @@ namespace Erogemy.BlockBreaker.Presenter
             }
 
             // phaseに併せたブロックと背景を表示
-            phaseViews[currentPhase].ShowCompleteView();
+            gameCanvas.ShowCompleteView(currentPhase);
             // パドルを非表示
             SetVisibleBallAndPaddle(false);
             // プレイを一時停止
