@@ -17,9 +17,10 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:IntegerField label="ライフ" value="3" name="ball-count-field" />
-                    <ui:IntegerField label="ボールの速度" value="5" name="ball-speed-field" />
-                    <ui:IntegerField label="バーの速度" value="5" name="paddle-speed-field" />
+                    <ui:IntegerField label="ボールの速度" value="50" name="ball-speed-field" />
+                    <ui:IntegerField label="バーの速度" value="50" name="paddle-speed-field" />
                     <ui:IntegerField label="クリア扱いにする残りブロック数" value="3" name="skip-threshold-field" />
+                    <ui:FloatField label="バー端に当たった時の角度変化量" value="1" name="reflection-angle-field" />
                     <ui:Toggle label="次フェーズ移行時にライフをリセットするか" name="reset-ball-toggle" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Border" class="border" />

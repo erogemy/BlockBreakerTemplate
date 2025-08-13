@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
+using Erogemy.BlockBreaker.Model;
+using Erogemy.BlockBreaker.Presenter;
 using Erogemy.BlockBreaker.View;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +11,7 @@ namespace Erogemy.BlockBreaker.Editor
 {
     public static class BlockBreakerBuilder
     {
-        public static void Build(Vector2Int blockSize)
+        public static void Build(Vector2Int blockSize, BockBreakerSettings settings)
         {
             if (!CreateScene())
             {
@@ -23,12 +25,12 @@ namespace Erogemy.BlockBreaker.Editor
                 return;
             }
             SetupBlockImage(phaseCount, blockSize);
-            SetupScene(phaseCount, blockSize);
+            SetupScene(phaseCount, blockSize, settings);
         }
 
-        static void SetupScene(int phaseCount, Vector2Int blockSize)
+        static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
         {
-            var gameCanvas = GameObject.Find("GameCanvas");
+            var gameCanvas = Object.FindAnyObjectByType<GameCanvasView>();;
             var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.PhaseTemplatePath);
 
             var width = 0;
@@ -55,8 +57,6 @@ namespace Erogemy.BlockBreaker.Editor
                 SetupBlockPrefabs(i, component, blockSize);
                 // GameCanvas内のヒエラルキー順を先頭に(Phase_1が最前面に来てほしい)
                 phaseObject.transform.SetAsFirstSibling();
-
-                // PresenterにPhaseを設定
             }
 
             // 高さが1920となるようにPlayAreaのRectTransformのwidthを調整
@@ -65,6 +65,8 @@ namespace Erogemy.BlockBreaker.Editor
             // widthとheightからアス比を計算
             var aspectRatio = (float)width / height;
             playArea.GetComponent<RectTransform>().sizeDelta = new Vector2(1080f * aspectRatio, 1080f);
+
+            Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
         }
 
         static void SetupBlockPrefabs(int phase, PhaseView parentPhase, Vector2Int blockSize)

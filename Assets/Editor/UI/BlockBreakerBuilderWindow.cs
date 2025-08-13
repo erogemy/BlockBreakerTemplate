@@ -46,7 +46,7 @@ public class BlockBreakerBuilderWindow : EditorWindow
                 }
 
                 SetShowMessage(false);
-                BlockBreakerBuilder.Build(new Vector2Int(blockSizeWPx, blockSizeHPx));
+                BlockBreakerBuilder.Build(new Vector2Int(blockSizeWPx, blockSizeHPx), settings);
             };
         }
 
@@ -85,23 +85,27 @@ public class BlockBreakerBuilderWindow : EditorWindow
 
         var ballCountField = root.Q<IntegerField>("ball-count-field");
         ballCountField.value = settings.ballCount;
-        ballCountField?.RegisterValueChangedCallback(evt => { });
+        ballCountField.RegisterValueChangedCallback(evt => settings.ballCount = evt.newValue);
 
         var ballSpeedField = root.Q<IntegerField>("ball-speed-field");
         ballSpeedField.value = settings.ballMoveSpeed;
-        ballSpeedField?.RegisterValueChangedCallback(evt => { });
+        ballSpeedField.RegisterValueChangedCallback(evt => settings.ballMoveSpeed = evt.newValue);
 
         var paddleSpeedField = root.Q<IntegerField>("paddle-speed-field");
         paddleSpeedField.value = settings.paddleMoveSpeed;
-        paddleSpeedField?.RegisterValueChangedCallback(evt => { });
+        paddleSpeedField.RegisterValueChangedCallback(evt => settings.paddleMoveSpeed = evt.newValue);
 
         var skipPhaseThresholdField = root.Q<IntegerField>("skip-threshold-field");
         skipPhaseThresholdField.value = settings.skipPhaseThreshold;
-        skipPhaseThresholdField?.RegisterValueChangedCallback(evt => { });
+        skipPhaseThresholdField.RegisterValueChangedCallback(evt => settings.skipPhaseThreshold = evt.newValue);
+
+        var reflectionAngleField = root.Q<FloatField>("reflection-angle-field");
+        reflectionAngleField.value = settings.ballReflectionAngle;
+        reflectionAngleField.RegisterValueChangedCallback(evt => settings.ballReflectionAngle = evt.newValue);
 
         var isResetBallField = root.Q<Toggle>("reset-ball-toggle");
         isResetBallField.value = settings.recoverBallOnPhaseClear;
-        isResetBallField?.RegisterValueChangedCallback(evt => { });
+        isResetBallField.RegisterValueChangedCallback(evt => settings.recoverBallOnPhaseClear = evt.newValue);
     }
 
     void SetShowMessage(bool isVisible)

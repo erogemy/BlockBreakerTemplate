@@ -33,7 +33,7 @@ namespace Erogemy.BlockBreaker.Presenter
 
         void Start()
         {
-            ball.Init(bockBreakerSettings.ballReflectionPower);
+            ball.Init(bockBreakerSettings.ballReflectionAngle);
             SetVisibleBallAndPaddle(false);
         }
 
@@ -169,6 +169,11 @@ namespace Erogemy.BlockBreaker.Presenter
             // ボールとパドルの位置をリセット
             ball.ResetPosition();
             paddle.ResetPosition();
+        }
+
+        public void ApplySettings(BockBreakerSettings settings)
+        {
+            bockBreakerSettings = settings;
         }
     }
 }
