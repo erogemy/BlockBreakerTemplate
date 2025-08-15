@@ -24,8 +24,11 @@ Unityで誰でもブロック崩しが作れるテンプレートプロジェク
   ```
 
 ### ツールの使い方
-1.　Unityの画面上のメニューから、Tools > Erogemy > BlockBreaker > BlockBreakerBuilderWindow を選択してください。
+1. Unityの画面上のメニューから、Tools > Erogemy > BlockBreaker > BlockBreakerBuilderWindow を選択してください。
 1. あとはウィンドウに使い方が書いてあります。
+
+## ビルドできたら
+* 是非エロゲミーに投稿してくださいね😌
 
 ## 凝った使い方
 ### 複数ステージを作りたい
