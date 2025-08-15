@@ -7,7 +7,6 @@
         public const string BlockImageName = "Block.png";
 
         public const string PackagePath = "Packages/com.erogemy.block-breaker/";
-        public const string LocalPackagePath = "Assets/";
         public const string BlockBreakerTemplatePath = "Templates/BlockBreakerTemplate.unity";
         public const string BlockBreakerScenePath = "Assets/Scenes/BlockBreaker/BlockBreaker.unity";
         public const string PhaseTemplatePath = "Prefabs/Phase_Template.prefab";

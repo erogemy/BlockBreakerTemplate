@@ -31,7 +31,7 @@ namespace Erogemy.BlockBreaker.Editor
         static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
         {
             var gameCanvas = Object.FindAnyObjectByType<GameCanvasView>();;
-            var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.PhaseTemplatePath);
+            var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath+EditorConsts.PhaseTemplatePath);
 
             var width = 0;
             var height = 0;
@@ -76,7 +76,7 @@ namespace Erogemy.BlockBreaker.Editor
             var baseImages = AssetDatabase.LoadAllAssetsAtPath(baseImagePath).OfType<Sprite>();
 
             // Blockプレファブを取得
-            var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.LocalPackagePath+EditorConsts.BlockTemplatePath);
+            var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath+EditorConsts.BlockTemplatePath);
             var container = parentPhase.BlockContainer;
 
             var blockCount = 0;
@@ -115,7 +115,7 @@ namespace Erogemy.BlockBreaker.Editor
             CreatePath(EditorConsts.BlockBreakerScenePath);
 
             // Templateシーンをコピーして新規作成
-            if (!AssetDatabase.CopyAsset(EditorConsts.LocalPackagePath + EditorConsts.BlockBreakerTemplatePath, EditorConsts.BlockBreakerScenePath))
+            if (!AssetDatabase.CopyAsset(EditorConsts.PackagePath + EditorConsts.BlockBreakerTemplatePath, EditorConsts.BlockBreakerScenePath))
             {
                 Debug.LogError("BlockBreakerシーンのコピーに失敗しました。");
                 return false;
