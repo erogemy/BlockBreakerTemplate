@@ -38,5 +38,10 @@ namespace Erogemy.BlockBreaker.View
             // -1 ~ 1の範囲に収める
             return Mathf.Clamp(normalizedPosition, -1f, 1f);
         }
+
+        public Vector2 GetAnchorPosition()
+        {
+            return rectTransform.anchoredPosition;
+        }
     }
 }

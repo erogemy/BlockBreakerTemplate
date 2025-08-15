@@ -195,5 +195,12 @@ namespace Erogemy.BlockBreaker.View
 
             return new Vector2(x, y).normalized;
         }
+
+        public void SetPositionX(float positionX)
+        {
+            var pos = rectTransform.anchoredPosition;
+            pos.x = positionX;
+            rectTransform.anchoredPosition = pos;
+        }
     }
 }

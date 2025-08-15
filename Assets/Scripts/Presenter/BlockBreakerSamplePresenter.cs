@@ -58,8 +58,8 @@ namespace Erogemy.BlockBreaker.Presenter
 
             if (currentSequence == Sequence.WaitStart)
             {
-
                 // 非ゲーム中であればボールをパドルに追従
+                ball.SetPositionX(paddle.GetAnchorPosition().x);
             }
         }
 
