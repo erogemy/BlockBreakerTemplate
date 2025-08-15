@@ -7,6 +7,8 @@ namespace Erogemy.BlockBreaker.View
         [SerializeField] RectTransform rectTransform;
         Vector2 initPos;
 
+        public float Width => rectTransform.rect.width;
+
         void Awake()
         {
             initPos = rectTransform.anchoredPosition;

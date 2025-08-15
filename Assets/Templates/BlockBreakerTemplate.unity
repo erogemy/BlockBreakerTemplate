@@ -964,12 +964,13 @@ MonoBehaviour:
     paddleMoveSpeed: 10
     skipPhaseThreshold: 3
     recoverBallOnPhaseClear: 1
-    ballReflectionPower: 1
+    ballReflectionAngle: 1
   mainUIView: {fileID: 1795839006}
   gameCanvas: {fileID: 1948779479}
   ball: {fileID: 513016565}
   paddle: {fileID: 1304103931}
   playerInput: {fileID: 616153774}
+  playArea: {fileID: 1771256001}
 --- !u!4 &616153772
 Transform:
   m_ObjectHideFlags: 0

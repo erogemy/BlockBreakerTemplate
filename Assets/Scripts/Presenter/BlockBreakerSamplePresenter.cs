@@ -13,6 +13,7 @@ namespace Erogemy.BlockBreaker.Presenter
         [SerializeField] Ball ball;
         [SerializeField] Paddle paddle;
         [SerializeField] PlayerInputWrapper playerInput;
+        [SerializeField] RectTransform playArea;
 
         int currentPhase;
         Sequence currentSequence = Sequence.Title;
@@ -46,6 +47,12 @@ namespace Erogemy.BlockBreaker.Presenter
                 var paddlePosition = playerInput.TouchScreenPosition;
                 // TouchScreenPositionは左端を0とするので、画面中央が0となるよう補正
                 paddlePosition.x -= Screen.width / 2f;
+
+                // PlayAreaの範囲内とpaddleの横幅を考慮してパドル位置を調整
+                var paddleWidth = paddle.Width * 0.5f;
+                var playAreaWidth = playArea.rect.width * 0.5f;
+                paddlePosition.x = Mathf.Clamp(paddlePosition.x, - playAreaWidth + paddleWidth, playAreaWidth - paddleWidth);
+
                 paddle.SetPosition(paddlePosition);
             }
 
