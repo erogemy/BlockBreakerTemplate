@@ -1,11 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Erogemy.BlockBreaker.Model;
 using Erogemy.BlockBreaker.Presenter;
 using Erogemy.BlockBreaker.View;
 using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Erogemy.BlockBreaker.Editor
 {
@@ -24,14 +28,16 @@ namespace Erogemy.BlockBreaker.Editor
                 Debug.LogError(message);
                 return;
             }
+
             SetupBlockImage(phaseCount, blockSize);
             SetupScene(phaseCount, blockSize, settings);
         }
 
         static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
         {
-            var gameCanvas = Object.FindAnyObjectByType<GameCanvasView>();;
-            var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath+EditorConsts.PhaseTemplatePath);
+            var gameCanvas = Object.FindAnyObjectByType<GameCanvasView>();
+            ;
+            var phasePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath + EditorConsts.PhaseTemplatePath);
 
             var width = 0;
             var height = 0;
@@ -76,7 +82,7 @@ namespace Erogemy.BlockBreaker.Editor
             var baseImages = AssetDatabase.LoadAllAssetsAtPath(baseImagePath).OfType<Sprite>();
 
             // Blockプレファブを取得
-            var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath+EditorConsts.BlockTemplatePath);
+            var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath + EditorConsts.BlockTemplatePath);
             var container = parentPhase.BlockContainer;
 
             var blockCount = 0;
@@ -107,6 +113,7 @@ namespace Erogemy.BlockBreaker.Editor
                 {
                     return false;
                 }
+
                 // シーンを開いておく
                 UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
                 return true;
@@ -154,6 +161,44 @@ namespace Erogemy.BlockBreaker.Editor
             {
                 Debug.LogError($"Failed to create directory {directoryPath}: {e.Message}");
             }
+        }
+
+        public static void BuildScene()
+        {
+            var scene = SceneManager.GetActiveScene();
+            if (!scene.IsValid())
+            {
+                Debug.LogError("現在のシーンが無効です");
+            }
+
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
+            {
+                if (!EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL))
+                {
+                    Debug.LogError("WebGLビルドターゲットへの切り替えに失敗しました。UnityHubで「Web」サポートがインストールされているか確認してください");
+                    return;
+                }
+            }
+
+            var path = EditorUtility.OpenFolderPanel("フォルダを選択", "", "");
+
+            var buildPlayerOptions = new BuildPlayerOptions
+            {
+                scenes = new[] { scene.path },
+                locationPathName = path,
+                target = BuildTarget.WebGL,
+                targetGroup = BuildTargetGroup.WebGL
+            };
+            var options = BuildOptions.None;
+            buildPlayerOptions.options = options;
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli;
+            PlayerSettings.SetIl2CppCodeGeneration(
+                NamedBuildTarget.WebGL,
+                Il2CppCodeGeneration.OptimizeSize // コードが小さいのでランタイム速度を気にせずビルド時間を短く
+            );
+            EditorSceneManager.SaveScene(scene, EditorConsts.BlockBreakerScenePath);
+            BuildPipeline.BuildPlayer(buildPlayerOptions);
+            Debug.Log($"{path}にビルド成果物を配置しました！");
         }
     }
 }

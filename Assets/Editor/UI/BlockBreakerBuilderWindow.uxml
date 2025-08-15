@@ -5,7 +5,7 @@
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:Label text="使い方" style="-unity-font-style: bold;" />
-                <ui:Label text="1. Assets/Image以下にPhase_1フォルダを作る&#10;2. 作ったディレクトリにBase.pngとBlock.pngを置く&#10;3. 「プレビューを再読み込み」ボタンを押す&#10;4. Build WebGLボタンを押す" />
+                <ui:Label text="1. Assets/Image以下にPhase_1フォルダを作る&#10;2. 作ったディレクトリにBase.pngとBlock.pngを置く&#10;3. 「プレビューを再読み込み」ボタンを押す&#10;4. 「シーンを作成」ボタンを押す&#10;5. 「WebGLビルド」ボタンを押す" />
                 <ui:VisualElement name="Border" class="border" />
                 <ui:VisualElement name="Settings">
                     <ui:Label text="ゲーム設定" style="-unity-font-style: bold;" />
@@ -18,7 +18,6 @@
                     </ui:VisualElement>
                     <ui:IntegerField label="ライフ" value="3" name="ball-count-field" />
                     <ui:IntegerField label="ボールの速度" value="50" name="ball-speed-field" />
-                    <ui:IntegerField label="バーの速度" value="50" name="paddle-speed-field" />
                     <ui:IntegerField label="クリア扱いにする残りブロック数" value="3" name="skip-threshold-field" />
                     <ui:FloatField label="バー端に当たった時の角度変化量" value="1" name="reflection-angle-field" />
                     <ui:Toggle label="次フェーズ移行時にライフをリセットするか" name="reset-ball-toggle" />
@@ -45,7 +44,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="Buttons" style="flex-grow: initial; flex-direction: row; justify-content: space-around; padding: 10px; align-content: center; align-items: center; flex-shrink: 1;">
             <ui:Button text="シーンを作成" name="create-scene-button" class="button" />
-            <ui:Button text="プレファブを作成" name="create-prefabs-button" class="button" />
+            <ui:Button text="WebGLビルド" name="build-for-webgl-button" class="button" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

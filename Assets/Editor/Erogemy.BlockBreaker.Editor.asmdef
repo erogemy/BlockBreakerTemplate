@@ -5,7 +5,9 @@
         "Erogemy.BlockBreaker",
         "Unity.2D.Sprite.Editor"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

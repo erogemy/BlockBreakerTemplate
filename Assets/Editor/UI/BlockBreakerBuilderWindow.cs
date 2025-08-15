@@ -67,11 +67,11 @@ namespace Erogemy.BlockBreaker.Editor
                 };
             }
 
-            var createPrefabsBtn = root.Q<Button>("create-prefabs-button");
-            if (createPrefabsBtn != null)
+            // build-for-webgl-button
+            var buildForWebGLBtn = root.Q<Button>("build-for-webgl-button");
+            if (buildForWebGLBtn != null)
             {
-                // TODO
-                createPrefabsBtn.clicked += () => Debug.Log("Create Prefabs button clicked");
+                buildForWebGLBtn.clicked += BlockBreakerBuilder.BuildScene;
             }
 
             var reloadPreviewBtn = root.Q<Button>("reload-preview-button");
@@ -107,10 +107,6 @@ namespace Erogemy.BlockBreaker.Editor
             var ballSpeedField = root.Q<IntegerField>("ball-speed-field");
             ballSpeedField.value = settings.ballMoveSpeed;
             ballSpeedField.RegisterValueChangedCallback(evt => settings.ballMoveSpeed = evt.newValue);
-
-            var paddleSpeedField = root.Q<IntegerField>("paddle-speed-field");
-            paddleSpeedField.value = settings.paddleMoveSpeed;
-            paddleSpeedField.RegisterValueChangedCallback(evt => settings.paddleMoveSpeed = evt.newValue);
 
             var skipPhaseThresholdField = root.Q<IntegerField>("skip-threshold-field");
             skipPhaseThresholdField.value = settings.skipPhaseThreshold;
