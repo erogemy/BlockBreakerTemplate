@@ -1,3 +1,4 @@
+using System.IO;
 using Erogemy.BlockBreaker.Model;
 using UnityEditor;
 using UnityEngine;
@@ -27,6 +28,21 @@ namespace Erogemy.BlockBreaker.Editor
 
             SetupUIBindings(root);
             UpdatePreview();
+            CheckTMProResources();
+
+            AssetDatabase.importPackageCompleted += (_) => CheckTMProResources();
+        }
+
+        void CheckTMProResources()
+        {
+            var isVisible = !File.Exists("Assets/TextMesh Pro/Resources/TMP Settings.asset");
+
+            // TextMeshProのリソースがない場合は、インポートするように促す
+            var messageContainer = rootVisualElement.Q<VisualElement>("tmp-message-container");
+            if (messageContainer != null)
+            {
+                messageContainer.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+            }
         }
 
         void SetupUIBindings(VisualElement root)
@@ -107,6 +123,16 @@ namespace Erogemy.BlockBreaker.Editor
             var isResetBallField = root.Q<Toggle>("reset-ball-toggle");
             isResetBallField.value = settings.recoverBallOnPhaseClear;
             isResetBallField.RegisterValueChangedCallback(evt => settings.recoverBallOnPhaseClear = evt.newValue);
+
+            var tmpImportBtn = rootVisualElement.Q<Button>("import-tmp-button");
+            if (tmpImportBtn != null)
+            {
+                tmpImportBtn.clicked += () =>
+                {
+                    AssetDatabase.ImportPackage("Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage", false);
+                    EditorApplication.delayCall += CheckTMProResources;
+                };
+            }
         }
 
         void SetShowMessage(bool isVisible)

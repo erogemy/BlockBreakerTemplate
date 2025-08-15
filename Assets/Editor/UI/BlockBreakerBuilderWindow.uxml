@@ -36,8 +36,12 @@
                 <ui:Button text="プレビューを再読み込み" name="reload-preview-button" class="button" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="system-message-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.27); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
+        <ui:VisualElement name="system-message-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.27); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
             <ui:Label text="Label" name="system-message-label" style="color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="tmp-message-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.27); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
+            <ui:Label text="テキスト表示のためのアセットがインポートされていません。ボタンを押してインポートしてください" style="color: rgb(255, 255, 255);" />
+            <ui:Button text="TMP Esseintialsをインポート" name="import-tmp-button" class="button" />
         </ui:VisualElement>
         <ui:VisualElement name="Buttons" style="flex-grow: initial; flex-direction: row; justify-content: space-around; padding: 10px; align-content: center; align-items: center; flex-shrink: 1;">
             <ui:Button text="シーンを作成" name="create-scene-button" class="button" />
