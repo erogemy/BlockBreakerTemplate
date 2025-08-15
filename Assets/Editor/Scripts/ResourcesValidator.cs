@@ -10,6 +10,12 @@ namespace Erogemy.BlockBreaker.Editor
         // ValidなPhaseの数を返す
         public static int ValidateAndGetPhaseCount(out string message)
         {
+            if (!System.IO.Directory.Exists(EditorConsts.ImagesPath))
+            {
+                message = $"{EditorConsts.ImagesPath}フォルダを作成してください";
+                return 0;
+            }
+
             var directories = System.IO.Directory.GetDirectories(EditorConsts.ImagesPath, "Phase_*");
 
             var count = 0;
