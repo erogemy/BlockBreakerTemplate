@@ -1,0 +1,50 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/UI/BlockBreakerBuilderWindow.uss?fileID=7433441132597879392&amp;guid=d2d8ad0844a27144ab4ec973a6061448&amp;type=3#BlockBreakerBuilderWindow" />
+    <ui:VisualElement style="flex-grow: 1; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
+        <ui:Label text="ブロック崩しビルダー" class="custom-label" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label text="使い方" style="-unity-font-style: bold;" />
+                <ui:Label text="1. Assets/Image以下にPhase_1フォルダを作る&#10;2. 作ったディレクトリにBase.pngとBlock.pngを置く&#10;3. 「プレビューを再読み込み」ボタンを押す&#10;4. 「シーンを作成」ボタンを押す&#10;5. 「WebGLビルド」ボタンを押す" />
+                <ui:VisualElement name="Border" class="border" />
+                <ui:VisualElement name="Settings">
+                    <ui:Label text="ゲーム設定" style="-unity-font-style: bold;" />
+                    <ui:VisualElement style="margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
+                        <ui:Label text="ブロックのサイズ(px)" />
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                            <ui:IntegerField label="ヨコ" value="32" name="block-width-size-field" style="flex-grow: 1; flex-basis: auto;" />
+                            <ui:IntegerField label="タテ" value="32" name="block-height-size-field" style="flex-grow: 1; flex-basis: auto;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:IntegerField label="ライフ" value="3" name="ball-count-field" />
+                    <ui:IntegerField label="ボールの速度" value="50" name="ball-speed-field" />
+                    <ui:IntegerField label="クリア扱いにする残りブロック数" value="3" name="skip-threshold-field" />
+                    <ui:FloatField label="バー端に当たった時の角度変化量" value="1" name="reflection-angle-field" />
+                    <ui:Toggle label="次フェーズ移行時にライフをリセットするか" name="reset-ball-toggle" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Border" class="border" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
+                <ui:Label text="プレビュー" style="-unity-text-align: upper-center; -unity-font-style: bold;" />
+                <ui:VisualElement name="PreviewArea" class="preview-container" />
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around; align-self: auto; align-items: center; align-content: auto; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
+                    <ui:Button text="&lt;" name="phase-prev-button" />
+                    <ui:Label text="Label" name="current-phase-label" />
+                    <ui:Button text="&gt;" name="phase-next-button" />
+                </ui:VisualElement>
+                <ui:Button text="プレビューを再読み込み" name="reload-preview-button" class="button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="system-message-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.27); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
+            <ui:Label text="Label" name="system-message-label" style="color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="tmp-message-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.27); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 0; margin-bottom: 10px; margin-left: 0;">
+            <ui:Label text="テキスト表示のためのアセットがインポートされていません。ボタンを押してインポートしてください" style="color: rgb(255, 255, 255);" />
+            <ui:Button text="TMP Esseintialsをインポート" name="import-tmp-button" class="button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Buttons" style="flex-grow: initial; flex-direction: row; justify-content: space-around; padding: 10px; align-content: center; align-items: center; flex-shrink: 1;">
+            <ui:Button text="シーンを作成" name="create-scene-button" class="button" />
+            <ui:Button text="WebGLビルド" name="build-for-webgl-button" class="button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
