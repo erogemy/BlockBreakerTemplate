@@ -11,8 +11,5 @@
         "com.unity.2d.sprite" : "1.0.0",
         "com.unity.inputsystem" : "1.14.0",
         "com.unity.ugui" : "2.0.0"
-    },
-    "gitDependencies": {
-        "com.cysharp.unitaks": "git+ssh://git@github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask/#2.5.10"
     }
 }
