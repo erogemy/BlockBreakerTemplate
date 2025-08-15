@@ -7,7 +7,11 @@
     "description": "Block breaker game template.",
     "keywords": [],
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": {
+        "com.unity.2d.sprite",
+        "com.unity.inputsystem",
+        "com.unity.modules.ui"
+    },
     "gitDependencies": {
         "com.cysharp.unitaks": "git+ssh://git@github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask/#2.5.10"
     }
