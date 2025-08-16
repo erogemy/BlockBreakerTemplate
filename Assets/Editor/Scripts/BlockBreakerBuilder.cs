@@ -78,15 +78,15 @@ namespace Erogemy.BlockBreaker.Editor
         static void SetupBlockPrefabs(int phase, PhaseView parentPhase, Vector2Int blockSize)
         {
             // Blockイメージを取得
-            var baseImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
-            var baseImages = AssetDatabase.LoadAllAssetsAtPath(baseImagePath).OfType<Sprite>();
+            var blockImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
+            var blockImage = AssetDatabase.LoadAllAssetsAtPath(blockImagePath).OfType<Sprite>();
 
             // Blockプレファブを取得
             var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath + EditorConsts.BlockTemplatePath);
             var container = parentPhase.BlockContainer;
 
             var blockCount = 0;
-            foreach (var baseImage in baseImages)
+            foreach (var baseImage in blockImage)
             {
                 var block = PrefabUtility.InstantiatePrefab(blockPrefab, container.transform) as GameObject;
                 blockPrefab.name = $"Block_{blockCount + 1}";
