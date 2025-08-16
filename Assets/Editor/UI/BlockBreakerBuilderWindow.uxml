@@ -5,7 +5,7 @@
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:Label text="使い方" style="-unity-font-style: bold;" />
-                <ui:Label text="1. Assets/Image以下にPhase_1フォルダを作る&#10;2. 作ったディレクトリにBase.pngとBlock.pngを置く&#10;3. 「プレビューを再読み込み」ボタンを押す&#10;4. 「シーンを作成」ボタンを押す&#10;5. 「WebGLビルド」ボタンを押す" />
+                <ui:Label text="1. Assets/Images以下にPhase_1フォルダを作る&#10;2. 作ったディレクトリにBase.pngとBlock.pngを置く&#10;3. 「プレビューを再読み込み」ボタンを押す&#10;4. 「シーンを作成」ボタンを押す&#10;5. 「WebGLビルド」ボタンを押す" />
                 <ui:VisualElement name="Border" class="border" />
                 <ui:VisualElement name="Settings">
                     <ui:Label text="ゲーム設定" style="-unity-font-style: bold;" />
