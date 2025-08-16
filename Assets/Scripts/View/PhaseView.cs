@@ -13,6 +13,7 @@ namespace Erogemy.BlockBreaker.View
         public void SetBaseImage(Sprite sprite)
         {
             baseImage.sprite = sprite;
+            baseImage.rectTransform.sizeDelta = new Vector2(sprite.texture.width, sprite.texture.height);
 
             // 1920x1080の解像度で表示するためにスケールを調整
             var scaleX = 1920f / sprite.texture.width;
