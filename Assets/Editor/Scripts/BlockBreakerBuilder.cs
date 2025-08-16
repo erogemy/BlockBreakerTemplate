@@ -60,7 +60,7 @@ namespace Erogemy.BlockBreaker.Editor
                 component.SetBaseImage(Sprite.Create(baseImage, new Rect(0, 0, baseImage.width, baseImage.height), Vector2.zero));
 
                 // Phase_XのBlocksにblockプレファブを並べていく
-                SetupBlockPrefabs(i, component, blockSize);
+                SetupBlockPrefabs(i, component);
                 // GameCanvas内のヒエラルキー順を先頭に(Phase_1が最前面に来てほしい)
                 phaseObject.transform.SetAsFirstSibling();
             }
@@ -75,30 +75,31 @@ namespace Erogemy.BlockBreaker.Editor
             Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
         }
 
-        static void SetupBlockPrefabs(int phase, PhaseView parentPhase, Vector2Int blockSize)
+        static void SetupBlockPrefabs(int phase, PhaseView parentPhase)
         {
             // Blockイメージを取得
-            var baseImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
-            var baseImages = AssetDatabase.LoadAllAssetsAtPath(baseImagePath).OfType<Sprite>();
+            var blockImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
+            var blockImage = AssetDatabase.LoadAllAssetsAtPath(blockImagePath).OfType<Sprite>();
 
             // Blockプレファブを取得
             var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath + EditorConsts.BlockTemplatePath);
             var container = parentPhase.BlockContainer;
 
             var blockCount = 0;
-            foreach (var baseImage in baseImages)
+            foreach (var cellImage in blockImage)
             {
                 var block = PrefabUtility.InstantiatePrefab(blockPrefab, container.transform) as GameObject;
                 blockPrefab.name = $"Block_{blockCount + 1}";
                 var blockComponent = block.GetComponent<Block>();
 
                 // BlockプレファブのBlockコンポーネントにBlockImageを設定
-                blockComponent.SetImage(baseImage);
+                blockComponent.SetImage(cellImage);
+                var blockSize = new Vector2(cellImage.rect.width, cellImage.rect.height);
 
                 // baseImageはBlock_Y_Xという名前なのでXYを取り出してVector2に詰める
-                var nameParts = baseImage.name.Split('_');
-                var blockSizeVector = new Vector2(int.Parse(nameParts[2]), int.Parse(nameParts[1]));
-                blockComponent.SetPositionAndSize(blockSizeVector * blockSize, blockSize);
+                var nameParts = cellImage.name.Split('_');
+                var blockIndexVector = new Vector2(int.Parse(nameParts[2]), int.Parse(nameParts[1]));
+                blockComponent.SetPositionAndSize(blockIndexVector * blockSize, blockSize);
 
                 blockCount++;
             }
@@ -140,7 +141,7 @@ namespace Erogemy.BlockBreaker.Editor
                 // フォルダ命名は1オリジン
                 var path = $"{EditorConsts.ImagesPath}Phase_{i + 1}/{EditorConsts.BlockImageName}";
                 var image = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                SpriteSliceWindow.ToSliceSprite(image, blockSize);
+                SpriteSlicer.ToSliceSprite(image, blockSize);
             }
         }
 
