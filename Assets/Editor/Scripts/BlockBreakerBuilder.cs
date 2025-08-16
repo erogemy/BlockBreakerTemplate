@@ -140,7 +140,7 @@ namespace Erogemy.BlockBreaker.Editor
                 // フォルダ命名は1オリジン
                 var path = $"{EditorConsts.ImagesPath}Phase_{i + 1}/{EditorConsts.BlockImageName}";
                 var image = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                SpriteSliceWindow.ToSliceSprite(image, blockSize);
+                SpriteSlicer.ToSliceSprite(image, blockSize);
             }
         }
 
