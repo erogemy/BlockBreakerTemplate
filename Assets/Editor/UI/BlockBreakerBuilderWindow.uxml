@@ -54,4 +54,7 @@
             <ui:Button text="WebGLビルド" name="build-for-webgl-button" class="button" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="package-update-screen" style="flex-grow: 1; position: absolute; background-color: rgba(0, 0, 0, 0.57); top: 0%; left: 0%; bottom: 0%; right: 0%;">
+        <ui:Label text="パッケージを更新中..." style="color: rgb(255, 255, 255); top: 0%; right: 0%; bottom: 0%; left: 0%; align-self: center; position: absolute; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 24px;" />
+    </ui:VisualElement>
 </ui:UXML>

@@ -33,6 +33,7 @@ namespace Erogemy.BlockBreaker.Editor
             UpdatePreview();
             CheckTMProResources();
             UpdatePackageVersionView();
+            SetVisiblePackageUpdateScreen(false);
 
             AssetDatabase.importPackageCompleted += (_) => CheckTMProResources();
         }
