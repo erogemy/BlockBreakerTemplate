@@ -47,6 +47,12 @@ namespace Erogemy.BlockBreaker.Editor
 
         void SetupUIBindings(VisualElement root)
         {
+            var updatePackageBtn = root.Q<Button>("update-package-button");
+            if (updatePackageBtn != null)
+            {
+                updatePackageBtn.clicked += UpdatePackage;
+            }
+
             var createSceneBtn = root.Q<Button>("create-scene-button");
             if (createSceneBtn != null)
             {
@@ -67,7 +73,6 @@ namespace Erogemy.BlockBreaker.Editor
                 };
             }
 
-            // build-for-webgl-button
             var buildForWebGLBtn = root.Q<Button>("build-for-webgl-button");
             if (buildForWebGLBtn != null)
             {
@@ -129,6 +134,11 @@ namespace Erogemy.BlockBreaker.Editor
                     EditorApplication.delayCall += CheckTMProResources;
                 };
             }
+        }
+
+        void UpdatePackage()
+        {
+            UnityEditor.PackageManager.Client.Add("https://github.com//erogemy/BlockBreakerTemplate.git?path=/Assets/#main");
         }
 
         void SetShowMessage(bool isVisible)
