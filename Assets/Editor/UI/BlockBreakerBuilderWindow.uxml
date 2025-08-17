@@ -1,7 +1,14 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Editor/UI/BlockBreakerBuilderWindow.uss?fileID=7433441132597879392&amp;guid=d2d8ad0844a27144ab4ec973a6061448&amp;type=3#BlockBreakerBuilderWindow" />
     <ui:VisualElement style="flex-grow: 1; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
-        <ui:Label text="ブロック崩しビルダー" class="custom-label" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label text="ブロック崩しビルダー" class="custom-label" />
+                <ui:Label text="v0.0.0" name="package-version-label" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:Button text="ツールを更新" name="update-package-button" class="button" style="max-width: 130px; white-space: normal; -unity-text-align: middle-center; align-self: center;" />
+        </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:Label text="使い方" style="-unity-font-style: bold;" />
@@ -46,5 +53,8 @@
             <ui:Button text="シーンを作成" name="create-scene-button" class="button" />
             <ui:Button text="WebGLビルド" name="build-for-webgl-button" class="button" />
         </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="package-update-screen" style="flex-grow: 1; position: absolute; background-color: rgba(0, 0, 0, 0.57); top: 0%; left: 0%; bottom: 0%; right: 0%;">
+        <ui:Label text="パッケージを更新中..." style="color: rgb(255, 255, 255); top: 0%; right: 0%; bottom: 0%; left: 0%; align-self: center; position: absolute; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 24px;" />
     </ui:VisualElement>
 </ui:UXML>
