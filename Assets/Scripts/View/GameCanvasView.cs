@@ -27,7 +27,7 @@ namespace Erogemy.BlockBreaker.View
         {
             for (var i = 0; i < phaseViews.Length; i++)
             {
-                phaseViews[phaseIndex].SetActive(i == phaseIndex);
+                phaseViews[i].SetActive(i == phaseIndex);
             }
 
             phaseViews[phaseIndex].ActivateAllBlocks();
