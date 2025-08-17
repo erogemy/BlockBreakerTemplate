@@ -2,7 +2,10 @@
     <Style src="project://database/Assets/Editor/UI/BlockBreakerBuilderWindow.uss?fileID=7433441132597879392&amp;guid=d2d8ad0844a27144ab4ec973a6061448&amp;type=3#BlockBreakerBuilderWindow" />
     <ui:VisualElement style="flex-grow: 1; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
         <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-            <ui:Label text="ブロック崩しビルダー" class="custom-label" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label text="ブロック崩しビルダー" class="custom-label" />
+                <ui:Label text="v0.0.0" name="package-version-label" />
+            </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1;" />
             <ui:Button text="ツールを更新" name="update-package-button" class="button" style="max-width: 130px; white-space: normal; -unity-text-align: middle-center; align-self: center;" />
         </ui:VisualElement>

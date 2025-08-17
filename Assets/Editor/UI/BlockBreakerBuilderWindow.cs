@@ -12,6 +12,7 @@ namespace Erogemy.BlockBreaker.Editor
 
         int currentPhase = 1;
         BockBreakerSettings settings = new();
+        PackageUpdater packageUpdater;
 
         [MenuItem("Tools/Erogemy/BlockBreaker/BlockBreakerBuilderWindow")]
         public static void ShowExample()
@@ -22,6 +23,8 @@ namespace Erogemy.BlockBreaker.Editor
 
         public void CreateGUI()
         {
+            packageUpdater = new PackageUpdater(OnUpdatePackage, OnFinishUpdatePackage);
+
             var root = rootVisualElement;
             VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
             root.Add(labelFromUXML);
@@ -29,6 +32,7 @@ namespace Erogemy.BlockBreaker.Editor
             SetupUIBindings(root);
             UpdatePreview();
             CheckTMProResources();
+            UpdatePackageVersionView();
 
             AssetDatabase.importPackageCompleted += (_) => CheckTMProResources();
         }
@@ -50,7 +54,7 @@ namespace Erogemy.BlockBreaker.Editor
             var updatePackageBtn = root.Q<Button>("update-package-button");
             if (updatePackageBtn != null)
             {
-                updatePackageBtn.clicked += UpdatePackage;
+                updatePackageBtn.clicked += packageUpdater.UpdatePackage;
             }
 
             var createSceneBtn = root.Q<Button>("create-scene-button");
@@ -136,11 +140,6 @@ namespace Erogemy.BlockBreaker.Editor
             }
         }
 
-        void UpdatePackage()
-        {
-            UnityEditor.PackageManager.Client.Add("https://github.com//erogemy/BlockBreakerTemplate.git?path=/Assets/#main");
-        }
-
         void SetShowMessage(bool isVisible)
         {
             var messageContainer = rootVisualElement.Q<VisualElement>("system-message-container");
@@ -204,6 +203,36 @@ namespace Erogemy.BlockBreaker.Editor
                 }
             };
             previewArea.Add(backgroundImage);
+        }
+
+        void OnUpdatePackage()
+        {
+            SetVisiblePackageUpdateScreen(true);
+        }
+
+        void OnFinishUpdatePackage()
+        {
+            SetVisiblePackageUpdateScreen(false);
+            UpdatePackageVersionView();
+        }
+
+        void SetVisiblePackageUpdateScreen(bool isVisible)
+        {
+            var element = rootVisualElement.Q<VisualElement>("package-update-screen");
+            if (element != null)
+            {
+                element.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+        }
+
+        void UpdatePackageVersionView()
+        {
+            var label = rootVisualElement.Q<Label>("package-version-label");
+            if (label != null)
+            {
+                var version = packageUpdater.GetPackageVersion();
+                label.text = $"v{version}";
+            }
         }
     }
 }
