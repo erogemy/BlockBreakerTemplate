@@ -36,6 +36,7 @@ namespace Erogemy.BlockBreaker.Presenter
         {
             ball.Init(bockBreakerSettings.ballReflectionAngle);
             SetVisibleBallAndPaddle(false);
+            gameCanvas.ActivatePhaseView(0);
         }
 
         void Update()
