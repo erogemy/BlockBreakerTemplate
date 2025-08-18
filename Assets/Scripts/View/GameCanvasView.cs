@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Erogemy.BlockBreaker.View
 {
@@ -11,6 +12,13 @@ namespace Erogemy.BlockBreaker.View
         void Awake()
         {
             phaseViews = GetComponentsInChildren<PhaseView>();
+            Array.Sort(phaseViews, (x, y) =>
+            {
+                // "Phase_X"のX部分を数値化して比較
+                var viewIndex = int.Parse(x.name.Split('_')[1]);
+                var phaseViewIndex = int.Parse(y.name.Split('_')[1]);
+                return viewIndex.CompareTo(phaseViewIndex);
+            });
         }
 
         public int GetPhaseBlockCount(int phaseIndex)
@@ -27,7 +35,7 @@ namespace Erogemy.BlockBreaker.View
         {
             for (var i = 0; i < phaseViews.Length; i++)
             {
-                phaseViews[phaseIndex].SetActive(i == phaseIndex);
+                phaseViews[i].SetActive(i == phaseIndex);
             }
 
             phaseViews[phaseIndex].ActivateAllBlocks();

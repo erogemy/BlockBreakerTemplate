@@ -81,101 +81,6 @@ namespace Erogemy.BlockBreaker.View
             }
         }
 
-        void OnCollisionEnter2D(Collision2D other)
-        {
-            if (!other.gameObject.TryGetComponent<Block>(out var block))
-            {
-                return;
-            }
-
-            OnRemoveBlock.Invoke();
-            block.SetActive(false);
-
-            if (isReflectionInFrame)
-            {
-                return;
-            }
-
-            var diff = rectTransform.anchoredPosition - block.GetPosition();
-            if (lastBlockDiffInFrame != null)
-            {
-                if (lastBlockDiffInFrame.Value.magnitude < diff.magnitude)
-                {
-                    // 前回のブロックとの接触の方が近ければ無視
-                    return;
-                }
-            }
-            lastBlockDiffInFrame = diff;
-
-            // ボールの速度をブロックと相対で取る(ブロック目線なので*-1しとく)
-            var relativeVelocity = -other.relativeVelocity;
-            var surface = CalcCollisionSurface(
-                rectTransform.anchoredPosition,
-                block.GetPosition(),
-                block.GetSize(),
-                relativeVelocity
-            );
-
-            if (surface.x != 0 && surface.y != 0)
-            {
-                // 角に衝突した時はどの角かで反射を制御
-                switch (surface.x)
-                {
-                    case < 0 when surface.y < 0:
-                        // 左下
-                        ballRb.linearVelocity　= new Vector2(
-                            - Mathf.Abs(relativeVelocity.x),
-                            - Mathf.Abs(relativeVelocity.y));
-                        break;
-                    case < 0 when surface.y > 0:
-                        // 左上
-                        ballRb.linearVelocity　= new Vector2(
-                            - Mathf.Abs(relativeVelocity.x),
-                            Mathf.Abs(relativeVelocity.y));
-                        break;
-                    case > 0 when surface.y < 0:
-                        // 右下
-                        ballRb.linearVelocity　= new Vector2(
-                            Mathf.Abs(relativeVelocity.x),
-                            - Mathf.Abs(relativeVelocity.y));
-                        break;
-                    default:
-                        // 右上
-                        ballRb.linearVelocity　= new Vector2(
-                            Mathf.Abs(relativeVelocity.x),
-                            Mathf.Abs(relativeVelocity.y));
-                        break;
-                }
-            }
-            else
-            {
-                ballRb.linearVelocity = relativeVelocity * new Vector2(
-                    surface.x != 0 ? -1 :1,
-                    surface.y != 0 ? -1 :1);
-            }
-        }
-
-        static Vector2 CalcCollisionSurface(Vector2 ballPosition, Vector2 blockPosition, Vector2 blockSize, Vector2 relativeVec)
-        {
-            // 対角線とdiffベクトルを比較してどの領域にいるかを判断
-            var diff = ballPosition - blockPosition;
-
-            // relativeVecの方向から考えられる衝突面を絞る
-            if (Mathf.Abs(blockSize.x) * 0.5f > Mathf.Abs(diff.x))
-            {
-                return new Vector2(0, relativeVec.y > 1 ? -1 : 1); // 上か下
-            }
-            else if (Mathf.Abs(blockSize.y) * 0.5f > Mathf.Abs(diff.y))
-            {
-                return new Vector2(relativeVec.x > 1 ? -1 : 1, 0); // 左か右
-            }
-
-            // 角の4つ
-            return new Vector2(
-                diff.x > 0 ? 1 : -1,
-                diff.y > 0 ? 1 : -1
-            );
-        }
 
         Vector2 ApplyAngleLimit(Vector2 direction, float maxLimitAngle)
         {
@@ -201,6 +106,24 @@ namespace Erogemy.BlockBreaker.View
             var pos = rectTransform.anchoredPosition;
             pos.x = positionX;
             rectTransform.anchoredPosition = pos;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return rectTransform.anchoredPosition;
+        }
+
+        public void OnCollisionBlock(Vector2 velocity, Vector2 blockPosition)
+        {
+            OnRemoveBlock.Invoke();
+            var diff = blockPosition - rectTransform.anchoredPosition;
+            if (lastBlockDiffInFrame.HasValue && lastBlockDiffInFrame.Value.sqrMagnitude < diff.sqrMagnitude)
+            {
+                // 前回のブロックより遠ければ無視
+                return;
+            }
+            lastBlockDiffInFrame = diff;
+            ballRb.linearVelocity = velocity;
         }
     }
 }
