@@ -75,11 +75,30 @@ namespace Erogemy.BlockBreaker.Editor
             Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
         }
 
+        static int CompareSpriteName(string a, string b)
+        {
+            // sprite名は "Block_Y_X" の形式なので、YとXを数値として比較
+            var aParts = a.Split('_');
+            var bParts = b.Split('_');
+
+            var aY = int.Parse(aParts[1]);
+            var bY = int.Parse(bParts[1]);
+            if (aY != bY)
+            {
+                return aY.CompareTo(bY);
+            }
+            var aX = int.Parse(aParts[2]);
+            var bX = int.Parse(bParts[2]);
+            return aX.CompareTo(bX);
+        }
+
         static void SetupBlockPrefabs(int phase, PhaseView parentPhase)
         {
             // Blockイメージを取得
             var blockImagePath = $"{EditorConsts.ImagesPath}Phase_{phase + 1}/{EditorConsts.BlockImageName}";
-            var blockImage = AssetDatabase.LoadAllAssetsAtPath(blockImagePath).OfType<Sprite>();
+            var blockImage = AssetDatabase.LoadAllAssetsAtPath(blockImagePath).OfType<Sprite>().ToArray();
+            Array.Sort(blockImage, (a, b) => CompareSpriteName(a.name, b.name));
+
 
             // Blockプレファブを取得
             var blockPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(EditorConsts.PackagePath + EditorConsts.BlockTemplatePath);
@@ -89,7 +108,7 @@ namespace Erogemy.BlockBreaker.Editor
             foreach (var cellImage in blockImage)
             {
                 var block = PrefabUtility.InstantiatePrefab(blockPrefab, container.transform) as GameObject;
-                blockPrefab.name = $"Block_{blockCount + 1}";
+                block.name = $"Block_{blockCount + 1}";
                 var blockComponent = block.GetComponent<Block>();
 
                 // BlockプレファブのBlockコンポーネントにBlockImageを設定
