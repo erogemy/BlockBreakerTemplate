@@ -14,20 +14,38 @@ namespace Erogemy.BlockBreaker.View
             image.sprite = sprite;
         }
 
+        // canvas左下基準での位置とサイズを設定
         public void SetPositionAndSize(Vector2 pos,Vector2 size)
         {
             var rectTransform = GetComponent<RectTransform>();
-            rectTransform.sizeDelta = size;
-            rectTransform.anchoredPosition = pos;
 
+            // アンカーを左下にして配置
+            rectTransform.SetInsetAndSizeFromParentEdge(
+                RectTransform.Edge.Left, pos.x, size.x);
+            rectTransform.SetInsetAndSizeFromParentEdge(
+                RectTransform.Edge.Bottom, pos.y, size.y);
+
+            // サイズ反映
             boxCollider.size = size;
 
-            // 中央に変更(テンプレprefabは左下pivot)
-            var globalPos = transform.position;
-            rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            transform.position = globalPos;
+            // アンカー変更前の頂点座標を取得
+            var oldCorners = new Vector3[4];
+            rectTransform.GetWorldCorners(oldCorners);
+
+            // アンカーを中央に戻す
+            rectTransform.anchorMin = Vector2.one * 0.5f;
+            rectTransform.anchorMax = Vector2.one * 0.5f;
+
+            // アンカー変更後の頂点座標を取得
+            var newCorners = new Vector3[4];
+            rectTransform.GetWorldCorners(newCorners);
+
+            // 頂点座標を使ってアンカー変更による位置ずれを補正
+            var diff = new Vector2(
+                newCorners[0].x - oldCorners[0].x,
+                newCorners[0].y - oldCorners[0].y
+            );
+            transform.position -= new Vector3(diff.x, diff.y, 0);
         }
 
         public void SetActive(bool isActive)
