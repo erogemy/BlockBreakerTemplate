@@ -89,7 +89,7 @@ namespace Erogemy.BlockBreaker.Editor
             foreach (var cellImage in blockImage)
             {
                 var block = PrefabUtility.InstantiatePrefab(blockPrefab, container.transform) as GameObject;
-                blockPrefab.name = $"Block_{blockCount + 1}";
+                block.name = $"Block_{blockCount + 1}";
                 var blockComponent = block.GetComponent<Block>();
 
                 // BlockプレファブのBlockコンポーネントにBlockImageを設定
