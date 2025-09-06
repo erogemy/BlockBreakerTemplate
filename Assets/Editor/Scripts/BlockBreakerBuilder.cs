@@ -31,6 +31,10 @@ namespace Erogemy.BlockBreaker.Editor
 
             SetupBlockImage(phaseCount, blockSize);
             SetupScene(phaseCount, blockSize, settings);
+
+            var scene = SceneManager.GetActiveScene();
+            Canvas.ForceUpdateCanvases(); // これがないとRectTransformのposがSaveされない
+            EditorSceneManager.SaveScene(scene, EditorConsts.BlockBreakerScenePath);
         }
 
         static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
