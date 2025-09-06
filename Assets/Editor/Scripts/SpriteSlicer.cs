@@ -19,6 +19,7 @@ namespace Erogemy.BlockBreaker.Editor
             var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(texture)) as TextureImporter;
             var isReadable = importer.isReadable;
             {
+                importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Multiple;
                 // read/writeを有効にする
                 importer.isReadable = true;
