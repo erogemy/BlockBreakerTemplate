@@ -29,7 +29,7 @@ namespace Erogemy.BlockBreaker.View
 
         public void ShowCompleteView()
         {
-            blockContainer.gameObject.SetActive(false);
+            blockContainer.SetActiveAll(false);
         }
 
         public void ActivateAllBlocks()
