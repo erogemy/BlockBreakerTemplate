@@ -67,12 +67,24 @@ namespace Erogemy.BlockBreaker.Editor
 
             // 高さが1920となるようにPlayAreaのRectTransformのwidthを調整
             var playArea = GameObject.Find("PlayArea");
+            SetupPlayArea(playArea, width, height);
 
+            Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
+        }
+
+        static void SetupPlayArea(GameObject playArea, int width, int height)
+        {
             // widthとheightからアス比を計算
             var aspectRatio = (float)width / height;
             playArea.GetComponent<RectTransform>().sizeDelta = new Vector2(1080f * aspectRatio, 1080f);
 
-            Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
+            // 上下のColliderのサイズを調整
+            var topCollider = GameObject.Find("TopWall").GetComponent<BoxCollider2D>();
+            var bottomCollider = GameObject.Find("FallArea").GetComponent<BoxCollider2D>();
+            var colliderHeight = topCollider.size.y;
+            const int margin = 100; // 角抜け防止でちょっと広めに
+            topCollider.size = new Vector2(1080f * aspectRatio + margin, colliderHeight);
+            bottomCollider.size = new Vector2(1080f * aspectRatio + margin, colliderHeight);
         }
 
         static int CompareSpriteName(string a, string b)
