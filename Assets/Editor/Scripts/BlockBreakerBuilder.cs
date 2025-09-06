@@ -31,6 +31,10 @@ namespace Erogemy.BlockBreaker.Editor
 
             SetupBlockImage(phaseCount, blockSize);
             SetupScene(phaseCount, blockSize, settings);
+
+            var scene = SceneManager.GetActiveScene();
+            Canvas.ForceUpdateCanvases(); // これがないとRectTransformのposがSaveされない
+            EditorSceneManager.SaveScene(scene, EditorConsts.BlockBreakerScenePath);
         }
 
         static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
@@ -146,8 +150,10 @@ namespace Erogemy.BlockBreaker.Editor
                     return false;
                 }
 
+                // CopyAssetはmetaが変わるのでFile.Copy
+                File.Copy(EditorConsts.PackagePath + EditorConsts.BlockBreakerTemplatePath, EditorConsts.BlockBreakerScenePath, true);
                 // シーンを開いておく
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+                EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
                 return true;
             }
 
@@ -160,7 +166,7 @@ namespace Erogemy.BlockBreaker.Editor
                 return false;
             }
 
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+            EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
 
             return true;
         }
