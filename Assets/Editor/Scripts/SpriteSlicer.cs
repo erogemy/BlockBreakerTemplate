@@ -11,14 +11,10 @@ namespace Erogemy.BlockBreaker.Editor
         //スブライトをスライスする
         public static void ToSliceSprite(Texture2D texture, Vector2Int gridSize)
         {
-            var factory = new SpriteDataProviderFactories();
-            factory.Init();
-            var dataProvider = factory.GetSpriteEditorDataProviderFromObject(texture);
-            dataProvider.InitSpriteEditorDataProvider();
-
             var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(texture)) as TextureImporter;
             var isReadable = importer.isReadable;
             {
+                importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Multiple;
                 // read/writeを有効にする
                 importer.isReadable = true;
@@ -26,6 +22,12 @@ namespace Erogemy.BlockBreaker.Editor
             }
 
             var rawScale = 1.0f / CalcRawTexScale(importer);
+
+            var factory = new SpriteDataProviderFactories();
+            factory.Init();
+
+            var dataProvider = factory.GetSpriteEditorDataProviderFromObject(texture);
+            dataProvider.InitSpriteEditorDataProvider();
             dataProvider.SetSpriteRects(GenerateSliceInfo(texture, gridSize, GetRawTextureSize(importer),rawScale).ToArray());
 
             dataProvider.Apply();
