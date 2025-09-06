@@ -146,8 +146,10 @@ namespace Erogemy.BlockBreaker.Editor
                     return false;
                 }
 
+                // CopyAssetはmetaが変わるのでFile.Copy
+                File.Copy(EditorConsts.PackagePath + EditorConsts.BlockBreakerTemplatePath, EditorConsts.BlockBreakerScenePath, true);
                 // シーンを開いておく
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+                EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
                 return true;
             }
 
@@ -160,7 +162,7 @@ namespace Erogemy.BlockBreaker.Editor
                 return false;
             }
 
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+            EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
 
             return true;
         }
