@@ -31,6 +31,10 @@ namespace Erogemy.BlockBreaker.Editor
 
             SetupBlockImage(phaseCount, blockSize);
             SetupScene(phaseCount, blockSize, settings);
+
+            var scene = SceneManager.GetActiveScene();
+            Canvas.ForceUpdateCanvases(); // これがないとRectTransformのposがSaveされない
+            EditorSceneManager.SaveScene(scene, EditorConsts.BlockBreakerScenePath);
         }
 
         static void SetupScene(int phaseCount, Vector2Int blockSize, BockBreakerSettings settings)
@@ -67,12 +71,24 @@ namespace Erogemy.BlockBreaker.Editor
 
             // 高さが1920となるようにPlayAreaのRectTransformのwidthを調整
             var playArea = GameObject.Find("PlayArea");
+            SetupPlayArea(playArea, width, height);
 
+            Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
+        }
+
+        static void SetupPlayArea(GameObject playArea, int width, int height)
+        {
             // widthとheightからアス比を計算
             var aspectRatio = (float)width / height;
             playArea.GetComponent<RectTransform>().sizeDelta = new Vector2(1080f * aspectRatio, 1080f);
 
-            Object.FindAnyObjectByType<BlockBreakerSamplePresenter>().ApplySettings(settings);
+            // 上下のColliderのサイズを調整
+            var topCollider = GameObject.Find("TopWall").GetComponent<BoxCollider2D>();
+            var bottomCollider = GameObject.Find("FallArea").GetComponent<BoxCollider2D>();
+            var colliderHeight = topCollider.size.y;
+            const int margin = 100; // 角抜け防止でちょっと広めに
+            topCollider.size = new Vector2(1080f * aspectRatio + margin, colliderHeight);
+            bottomCollider.size = new Vector2(1080f * aspectRatio + margin, colliderHeight);
         }
 
         static int CompareSpriteName(string a, string b)
@@ -134,8 +150,10 @@ namespace Erogemy.BlockBreaker.Editor
                     return false;
                 }
 
+                // CopyAssetはmetaが変わるのでFile.Copy
+                File.Copy(EditorConsts.PackagePath + EditorConsts.BlockBreakerTemplatePath, EditorConsts.BlockBreakerScenePath, true);
                 // シーンを開いておく
-                UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+                EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
                 return true;
             }
 
@@ -148,7 +166,7 @@ namespace Erogemy.BlockBreaker.Editor
                 return false;
             }
 
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
+            EditorSceneManager.OpenScene(EditorConsts.BlockBreakerScenePath);
 
             return true;
         }
